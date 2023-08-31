@@ -7,6 +7,7 @@ namespace Assets.Scripts
         public override void EnterState(NodeStateManager node)
         {
             Debug.Log($"EnterState {node.gameObject.name} in state: {node._currentState}");
+            node.ChangeColor(node._currentState);
         }
 
         public override void OnClick(NodeStateManager node)

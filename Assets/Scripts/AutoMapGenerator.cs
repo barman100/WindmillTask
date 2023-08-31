@@ -14,6 +14,7 @@ namespace Assets.Scripts
         [SerializeField] GameObject _nodePrefab;
         [SerializeField] Renderer _nodePrefabRenderer;
         [SerializeField] int _stagesAmount;
+        [Header("First nodes amount (Root) as to be 1")]
         [SerializeField] int[] _nodesPerStage;
 
         private float _planeXbound;

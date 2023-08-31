@@ -7,30 +7,51 @@ namespace Assets.Scripts
     public class MapGenerator : MonoBehaviour
     {
         [SerializeField] GameObject _nodePrefab;
-        [SerializeField] Transform _levelPlanTransform;
+        [SerializeField] Transform _spawnPositionParent;
         [SerializeField] LevelPlan _levelPlan;
         private List<List<Transform>> _nodesPositions = new List<List<Transform>>();
         public void Start()
         {
+            // obviously i can just instantiate the _levelPlan gameobject
+            // but to make it easier to plan and prevent human error like forgeting to use the right prefab 
+            // or a missing component i decided to use code
+            // plus it gives the ability to be more dynamic
+
             Initialize();
+
             if (_nodesPositions != null)
             {
                 GenerateLevelPlan();
             }
+            else if (_nodesPositions.Count == 0)
+                throw new ArgumentNullException("_nodesPositions", "_nodesPositions is Empty");
+            else
+                throw new ArgumentNullException("_nodesPositions", "Couldn't load node's list, _nodesPositions is null");
+
+            GameManager.NodeController.SetListners();
         }
 
         private void GenerateLevelPlan()
         {
             var nodeCounter = 0;
+            List<NodeStateManager> nodesListPerStage = new List<NodeStateManager>();
             for (int i = 0; i < _nodesPositions.Count; i++)
             {
                 for (int j = 0; j < _nodesPositions[i].Count; j++)
                 {
                     Transform transform = _nodesPositions[i][j];
-                    GameObject nodeGO = Instantiate(_nodePrefab, transform.position, Quaternion.identity);
+                    GameObject nodeGO = Instantiate(_nodePrefab, transform.position, Quaternion.identity, _spawnPositionParent);
                     nodeGO.name = $"Stage{i}: - Node{nodeCounter}";
+
+                    var nodeStateManager = nodeGO.GetComponent<NodeStateManager>();
+                    nodeStateManager.index = i;
+                    nodesListPerStage.Add(nodeStateManager);
+
                     nodeCounter++;
                 }
+
+                GameManager.NodeController.NodesStatesManagersDic.Add(i, CopyList(nodesListPerStage));
+                nodesListPerStage.Clear();
             }
         }
 
@@ -50,6 +71,10 @@ namespace Assets.Scripts
 
                 _nodesPositions.Add(nodes);
             }
+        }
+        private List<T> CopyList<T>(List<T> source)
+        {
+            return new List<T>(source);
         }
     }
 }

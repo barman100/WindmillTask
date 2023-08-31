@@ -12,6 +12,7 @@ namespace Assets.Scripts
         public override void OnClick(NodeStateManager node)
         {
             Debug.Log($"OnClick {node.gameObject.name} in state: {node._currentState}");
+            node.ChangeState(node._completeState); 
         }
 
     }

@@ -37,11 +37,17 @@ namespace Assets.Scripts
         }
         public void OpenNodes(NodeStateManager node)
         {
-            if (NodesStatesManagersDic.Count > node.index + 1)
-                foreach (var item in NodesStatesManagersDic[node.index + 1])
+            var nextIndex = node.index +1;
+            var listIndex = 0;
+            if (NodesStatesManagersDic.Count > nextIndex)
+                foreach (var item in NodesStatesManagersDic[nextIndex])
                 {
-                    item.ChangeState(node._openState);
+                    var nextNode = NodesStatesManagersDic[nextIndex][listIndex];
+                    if (nextNode._currentState != nextNode._completeState)
+                        item.ChangeState(node._openState);
+                    listIndex += listIndex + 1 < NodesStatesManagersDic[nextIndex].Count ? 1 : 0;
                 }
+            listIndex = 0;
         }
     }
 }

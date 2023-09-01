@@ -6,33 +6,42 @@ namespace Assets.Scripts
 {
     public class NodeStateManager : MonoBehaviour
     {
-        public int index;
-        public NodeBaseState _currentState;
-        public NodeLockedState _lockedState = new();
-        public NodeOpenState _openState = new();
-        public NodeCompleteState _completeState = new();
+        public int Index;
+        public NodeBaseState CurrentState { get; private set; }
+        public NodeLockedState LockedState { get; private set; }
+        public NodeOpenState OpenState { get; private set; }
+        public NodeCompleteState CompleteState { get; private set; }
+
         public event Action<GameObject,NodeBaseState> ChangeColorEvent;
         public event Action<NodeStateManager> OpenNextNodesEvent;
 
         void Start()
         {
-            if (index == 0)
-                _currentState = _openState;
-            else
-                _currentState = _lockedState;
+            Initialize();
+        }
 
-            _currentState.EnterState(this);
+        private void Initialize()
+        {
+            LockedState = new();
+            OpenState = new();
+            CompleteState = new();
+
+            if (Index == 0)
+                CurrentState = OpenState;
+            else
+                CurrentState = LockedState;
+
+            CurrentState.EnterState(this);
         }
 
         private void OnMouseDown()
         {
-            _currentState.OnClick(this);
+            CurrentState.OnClick(this);
         }
         public void ChangeState(NodeBaseState state)
         {
-            _currentState = state;
+            CurrentState = state;
             state.EnterState(this);
-            
         }
         public void ChangeColor(NodeBaseState state)
         {

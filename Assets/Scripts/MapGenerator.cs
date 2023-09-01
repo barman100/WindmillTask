@@ -30,7 +30,9 @@ namespace Assets.Scripts
 
             GameManager.NodeController.SetListners();
         }
-
+        /// <summary>
+        /// Generate map based on LevelPlan Prefab node structure
+        /// </summary>
         private void GenerateLevelPlan()
         {
             var nodeCounter = 0;
@@ -39,22 +41,26 @@ namespace Assets.Scripts
             {
                 for (int j = 0; j < _nodesPositions[i].Count; j++)
                 {
+                    //Create game Object
                     Transform transform = _nodesPositions[i][j];
                     GameObject nodeGO = Instantiate(_nodePrefab, transform.position, Quaternion.identity, _spawnPositionParent);
                     nodeGO.name = $"Stage{i}: - Node{nodeCounter}";
 
+                    //Setup node's manager in a list
                     var nodeStateManager = nodeGO.GetComponent<NodeStateManager>();
-                    nodeStateManager.index = i;
+                    nodeStateManager.Index = i;
                     nodesListPerStage.Add(nodeStateManager);
 
                     nodeCounter++;
                 }
-
+                //Add NodeStateManager list to Dicionary using an int index as key 
                 GameManager.NodeController.NodesStatesManagersDic.Add(i, CopyList(nodesListPerStage));
                 nodesListPerStage.Clear();
             }
         }
-
+        /// <summary>
+        /// Initialzing list values before GenerateLevelPlan() based on LevelPlan Prefab
+        /// </summary>
         private void Initialize()
         {
             _nodesPositions.Add(_levelPlan.RootNodeTransform);

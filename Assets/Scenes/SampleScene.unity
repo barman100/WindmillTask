@@ -671,6 +671,7 @@ MonoBehaviour:
   _planePosition: {fileID: 1482865562}
   _nodePrefab: {fileID: 8285561472537262816, guid: 15aa4ecc078e4b14caa863b8a8a58982, type: 3}
   _nodePrefabRenderer: {fileID: 5790113723141643743, guid: 15aa4ecc078e4b14caa863b8a8a58982, type: 3}
+  _spawnPositionParent: {fileID: 1077523970}
   _stagesAmount: 10
   _nodesPerStage: 01000000020000000300000004000000050000000600000007000000060000000600000006000000
 --- !u!1 &1090990728
@@ -683,7 +684,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1090990729}
   - component: {fileID: 1090990731}
-  - component: {fileID: 1090990730}
   m_Layer: 0
   m_Name: MiniMapCamera
   m_TagString: Untagged
@@ -706,14 +706,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 963194228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1090990730
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090990728}
-  m_Enabled: 1
 --- !u!20 &1090990731
 Camera:
   m_ObjectHideFlags: 0
@@ -749,7 +741,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10.5
+  orthographic size: 12.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
